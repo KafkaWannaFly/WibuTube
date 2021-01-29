@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WibuTube", "WibuTube\WibuTube.csproj", "{2479C6B8-0A38-4B05-9920-D8B07FE76022}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WibuTubeTests", "WibuTubeTests\WibuTubeTests.csproj", "{20FFF75E-266B-4AC7-9391-AA6EF30CEF6E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2479C6B8-0A38-4B05-9920-D8B07FE76022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2479C6B8-0A38-4B05-9920-D8B07FE76022}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2479C6B8-0A38-4B05-9920-D8B07FE76022}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2479C6B8-0A38-4B05-9920-D8B07FE76022}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20FFF75E-266B-4AC7-9391-AA6EF30CEF6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20FFF75E-266B-4AC7-9391-AA6EF30CEF6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20FFF75E-266B-4AC7-9391-AA6EF30CEF6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20FFF75E-266B-4AC7-9391-AA6EF30CEF6E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3F705D1F-0946-4C85-BF80-489CC0D6251A}
+	EndGlobalSection
+EndGlobal
