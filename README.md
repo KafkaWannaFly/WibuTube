@@ -1,6 +1,10 @@
 # WibuTube Package
 
-This a a nuget package from [WibuTubeConverter](https://github.com/tarzanchemgio/WibuTubeConverter) which provides functionalities that do exactly what `WibuTubeConvert` is able to. But this package is .NET5 instead of UWP like `WibuTubeConverter`.
+This library:
+
+- Downloads video from YouTube
+- Converts it to mp3
+- Adds some other information to the mp3 file
 
 ## Examples
 
