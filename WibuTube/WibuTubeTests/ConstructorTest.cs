@@ -14,14 +14,14 @@ namespace WibuTubeTests
         {
             WibuTubeConverter wibuTubeConverter = new();
 
-            bool isDir = Directory.Exists(WibuTubeConverter.ffmpegBinaryFolder);
+            bool isDir = Directory.Exists(WibuTubeConverter.FfmpegBinaryFolder);
             Assert.AreEqual(true, isDir);
         }
 
         [TestMethod]
         public void ChangeFFmpegDirTest()
         {
-            WibuTubeConverter.ffmpegBinaryFolder = "FFmpegBinary";
+            WibuTubeConverter.FfmpegBinaryFolder = "FFmpegBinary";
             WibuTubeConverter wibuTubeConverter = new();
 
             bool isDir = Directory.Exists("FFmpegBinary");

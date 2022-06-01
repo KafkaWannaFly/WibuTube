@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using VideoLibrary;
 using Xabe.FFmpeg;
@@ -22,8 +21,11 @@ namespace WibuTube
         /// <summary>
         /// Default path to save FFpmeg binary into
         /// </summary>
-        static public string ffmpegBinaryFolder = "FFmpeg";
-        static public bool isReady = false;
+        static string ffmpegBinaryFolder = "FFmpeg";
+        private static bool isReady = false;
+
+        public static bool IsReady { get => isReady; set => isReady = value; }
+        public static string FfmpegBinaryFolder { get => ffmpegBinaryFolder; set => ffmpegBinaryFolder = value; }
 
         public WibuTubeConverter()
         {
@@ -35,15 +37,15 @@ namespace WibuTube
                 FFmpegDownloader.GetLatestVersion(FFmpegVersion.Official, ffmpegBinaryFolder)
                     .ContinueWith((task) =>
                     {
-                        isReady = true;
+                        IsReady = true;
                     });
             }
             else
             {
-                isReady = true;
+                IsReady = true;
             }
 
-            while (!isReady)
+            while (!IsReady)
             {
                 //Console.WriteLine($"Not found FFmpeg yet, downloading...");
                 //Thread.Sleep(1000);
@@ -96,12 +98,8 @@ namespace WibuTube
 
                 //Because Stream is implemented IDisposable, we must call Dispose directly or indirectly
                 using (Stream sourceStream = await youTubeVideo.StreamAsync())
-                {
-                    using (Stream destinationStream = File.OpenWrite(folderToSaveIn + youTubeVideo.FullName))
-                    {
-                        await sourceStream.CopyToAsync(destinationStream);
-                    }
-                }
+                using (Stream destinationStream = File.OpenWrite(folderToSaveIn + youTubeVideo.FullName))
+                    await sourceStream.CopyToAsync(destinationStream);
 
                 return new FileInfo(folderToSaveIn + youTubeVideo.FullName);
             }
@@ -133,7 +131,7 @@ namespace WibuTube
                 throw new ArgumentException($"{funcName}: End time is less then start time");
             }
 
-            if(File.Exists(dest))
+            if (File.Exists(dest))
             {
                 return new FileInfo(dest);
             }
@@ -145,11 +143,6 @@ namespace WibuTube
             }
             else
             {
-                //IConversion conversion = await FFmpeg.Conversions.FromSnippet.Split(source, dest,
-                //                                TimeSpan.FromSeconds(start), TimeSpan.FromSeconds(end));
-                //conversion.SetOutputFormat(Format.mp3);
-                //await conversion.Start();
-
                 IConversion conversion = await FFmpeg.Conversions.FromSnippet.ExtractAudio(source, dest);
                 conversion.SetSeek(TimeSpan.FromSeconds(start));
                 conversion.SetOutputTime(TimeSpan.FromSeconds(duration));
@@ -179,10 +172,10 @@ namespace WibuTube
             FileInfo sourceInfo = new FileInfo(source);
             if (!sourceInfo.Exists)
             {
-                throw new FileNotFoundException($"{nameof(this.GetVideoSnapshotAsync)}: Can't find {source}");
+                throw new FileNotFoundException($"{nameof(GetVideoSnapshotAsync)}: Can't find {source}");
             }
 
-            if(File.Exists(dest))
+            if (File.Exists(dest))
             {
                 return new FileInfo(dest);
             }
@@ -190,7 +183,7 @@ namespace WibuTube
             IConversion conversion = await FFmpeg.Conversions.FromSnippet.Snapshot(sourceInfo.FullName,
                                                             dest,
                                                             TimeSpan.FromSeconds(second));
-            IConversionResult conversionResult = await conversion.Start();
+            await conversion.Start();
 
             return new FileInfo(dest);
         }
@@ -204,30 +197,28 @@ namespace WibuTube
         /// <exception cref="FileNotFoundException"></exception>
         public async Task<FileInfo> SetMp3Thumbnail(string mp3Path, string picturePath)
         {
-            if (!System.IO.File.Exists(mp3Path))
+            if (!File.Exists(mp3Path))
             {
                 throw new FileNotFoundException($"{nameof(SetMp3Thumbnail)}: Can't find {mp3Path}");
             }
 
-            if (!System.IO.File.Exists(picturePath))
+            if (!File.Exists(picturePath))
             {
                 throw new FileNotFoundException($"{nameof(SetMp3Thumbnail)}: Can't find {picturePath}");
             }
 
-            using (var mp3 = TagLib.File.Create(mp3Path))
+            using var mp3 = TagLib.File.Create(mp3Path);
+            TagLib.Picture picture = new TagLib.Picture(picturePath)
             {
-                TagLib.Picture picture = new TagLib.Picture(picturePath)
-                {
-                    Type = TagLib.PictureType.FrontCover,
-                    Description = "Cover",
-                    MimeType = System.Net.Mime.MediaTypeNames.Image.Jpeg,
-                };
+                Type = TagLib.PictureType.FrontCover,
+                Description = "Cover",
+                MimeType = System.Net.Mime.MediaTypeNames.Image.Jpeg,
+            };
 
-                mp3.Tag.Pictures = new TagLib.Picture[] { picture };
-                mp3.Save();
+            mp3.Tag.Pictures = new TagLib.Picture[] { picture };
+            mp3.Save();
 
-                return await Task.FromResult(new FileInfo(mp3.Name));
-            }
+            return await Task.FromResult(new FileInfo(mp3.Name));
         }
 
         /// <summary>
@@ -240,21 +231,19 @@ namespace WibuTube
         /// <exception cref="FileNotFoundException"></exception>
         public FileInfo SetMp3DetailInfo(string mp3Path, ISong songDetail)
         {
-            if (!System.IO.File.Exists(mp3Path))
+            if (!File.Exists(mp3Path))
             {
                 throw new FileNotFoundException($"{nameof(SetMp3Thumbnail)}: Can't find {mp3Path}");
             }
 
-            using (var mp3 = TagLib.File.Create(mp3Path))
-            {
-                mp3.Tag.Title = songDetail.Tittle;
-                mp3.Tag.Performers = songDetail.Performers;
-                mp3.Tag.Album = songDetail.Album;
+            using var mp3 = TagLib.File.Create(mp3Path);
+            mp3.Tag.Title = songDetail.Tittle;
+            mp3.Tag.Performers = songDetail.Performers;
+            mp3.Tag.Album = songDetail.Album;
 
-                mp3.Save();
+            mp3.Save();
 
-                return new FileInfo(mp3.Name);
-            }
+            return new FileInfo(mp3.Name);
         }
     }
 }
