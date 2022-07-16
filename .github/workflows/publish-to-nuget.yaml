@@ -17,7 +17,6 @@ jobs:
           project_path: WibuTube/UnitTest/UnitTest.csproj
           report_title: Unit Test Report
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          fail_build_on_failed_tests: true
 
   publish:
     needs: unit-test
