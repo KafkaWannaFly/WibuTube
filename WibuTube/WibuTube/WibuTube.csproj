@@ -1,20 +1,55 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0</TargetFrameworks>
+		<LangVersion>10.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <Optimize>true</Optimize>
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
+		<Version>1.0.1</Version>
+		<Authors>Kafka Wanna Fly</Authors>
+		<Company>HCMUS</Company>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<Title>WibuTube Package</Title>
+		<Description>
+			Downloads video from YouTube
+			Converts it to mp3
+			Adds some other information to the mp3 file
+		</Description>
+		<Copyright>Copyright (c) Kafka Wanna Fly 2022.</Copyright>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/KafkaWannaFly/WibuTubePackage</PackageProjectUrl>
+		<PackageTags>youtube;converter;video to mp3;mp3 thumbnai</PackageTags>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="TagLibSharp" Version="2.2.0" />
-    <PackageReference Include="VideoLibrary" Version="3.1.9" />
-    <PackageReference Include="Xabe.FFmpeg" Version="5.2.0" />
-    <PackageReference Include="Xabe.FFmpeg.Downloader" Version="5.2.0" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<Optimize>true</Optimize>
+		<DocumentationFile></DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\..\WibuTube\LICENSE.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\README.assests\icon.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="TagLibSharp" Version="2.2.0" />
+		<PackageReference Include="VideoLibrary" Version="3.1.9" />
+		<PackageReference Include="Xabe.FFmpeg" Version="5.2.0" />
+		<PackageReference Include="Xabe.FFmpeg.Downloader" Version="5.2.0" />
+	</ItemGroup>
 
 </Project>
